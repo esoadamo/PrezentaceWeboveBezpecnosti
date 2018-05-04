@@ -1,13 +1,72 @@
 <!DOCTYPE html>
 <html>
-   <head>
-      <title>Hello world</title>
-   </head>
-   <script src = "/socket.io/socket.io.js"></script>
 
-   <script>
-      let socket = io();
-      socket.on('connect', () => socket.emit('role', 'client'));
-   </script>
-   <body>Hello world</body>
+<head>
+  <title>UI Prezentace</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="index.css" />
+  <link href="https://fonts.googleapis.com/css?family=Titan+One" rel="stylesheet">
+</head>
+
+<body>
+  <div class="page" id="pageLoading">
+    <p id='pLoadingStatus'>Nahrávám...</p>
+  </div>
+  <div class="page" id="pageEnter">
+    <div class="button" id="btnEnter">Otevřít ovládání</div>
+  </div>
+  <div class="page" id="pageLogin">
+    <h1>Rozhraní posluchače</h1>
+    <h2>Pro pokračování se prosím přihlašte pomocí jedné z metod:</h2>
+    <img src="login_with_facebook.png" />
+  </div>
+</body>
+
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+  let currentPage = document.querySelector('#pageLoading');;
+
+  function showPage(page) {
+    if (currentPage !== null)
+      currentPage.style.visibility = 'hidden';
+    currentPage = document.querySelector('#page' + page);
+    currentPage.style.visibility = 'visible';
+    currentPage.style.animation = 'pageFlowIn 1s';
+  }
+
+  function requestFullScreen(element) {
+    // Supports most browsers and their versions.
+    var requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
+
+    if (requestMethod) { // Native full screen.
+      requestMethod.call(element);
+    } else if (typeof window.ActiveXObject !== "undefined") { // Older IE.
+      var wscript = new ActiveXObject("WScript.Shell");
+      if (wscript !== null) {
+        wscript.SendKeys("{F11}");
+      }
+    }
+  }
+
+
+  window.onload = () => {
+    const pLoadingStatus = document.querySelector('#pLoadingStatus');
+
+    function onConnect() {
+      showPage('Enter');
+      document.querySelector('#btnEnter').onclick = () => {
+        requestFullScreen(document.querySelector('#pageLogin'));
+        showPage('Login');
+      }
+    }
+
+    pLoadingStatus.textContent = 'Připojuji...';
+    /*  let socket = io();
+      socket.on('connect', () => socket.emit('role', 'client'));*/
+    onConnect(); // DEBUG:
+  }
+</script>
+
 </html>
