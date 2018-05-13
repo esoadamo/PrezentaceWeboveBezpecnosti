@@ -51,6 +51,97 @@ img {
   background: orange;
 }
 
+#loginFacebook:hover{
+  filter: brightness(1.1);
+}
+
+body, html {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#pageFb {
+  background: radial-gradient(circle, #9fb2db, #2c4680);
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+}
+
+.fbHeader {
+  color: #FFFFFF;
+  font-size: 50px;
+  max-height: 50px;
+}
+
+.fbInput {
+  background: #f1f2f3;
+  width: 80%;
+  font-size: 14px;
+  line-height: 20px;
+  padding: 12px;
+  color: #010101;
+}
+
+#fbMail {
+  margin-top: 7%;
+  border-radius: 15px 15px 0px 0px;
+  border-bottom: none;
+}
+
+#fbPassword {
+  border-radius: 0 0 15px 15px;
+  border-bottom: none;
+  border-top: 1px solid #dcdcde;
+}
+
+#fbButton {
+  margin-top: 5%;
+  border-radius: 15px 15px 15px 15px;
+  font-weight: bold;
+  color: #686868;
+}
+
+.fbAppInfo{
+  color: #ebffff;
+  margin-top: 7%;
+  font-size: 16px;
+}
+
+.fbLinks a{
+  color: #93aece;
+  text-decoration: none;
+  font-size: 12px;
+}
+
+.fbLinks{
+  position: absolute;
+  z-index: -1;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes pageFbFlowIn {
+  0% {
+    filter: opacity(1);
+    left: -100%;
+  },
+  100% {
+    left: -0%;
+  }
+}
+
+
 @keyframes pageFlowIn {
   0% {
     filter: opacity(1);

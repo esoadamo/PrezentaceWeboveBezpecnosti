@@ -14,12 +14,23 @@
     <p id='pLoadingStatus'>Nahrávám...</p>
   </div>
   <div class="page" id="pageEnter">
+    <p>Ovládání je připraveno</p>
     <div class="button" id="btnEnter">Otevřít ovládání</div>
   </div>
   <div class="page" id="pageLogin">
     <h1>Rozhraní posluchače</h1>
     <h2>Pro pokračování se prosím přihlašte pomocí jedné z metod:</h2>
-    <img src="login_with_facebook.png" />
+    <img id='loginFacebook' src="login_with_facebook.png" />
+  </div>
+  <div class="page" id="pageFb">
+    <img class="fbHeader" src="facebook_logo.png" alt="facebook"/>
+    <div class="fbAppInfo">Aby jste mohli používat <i>Ovládání prezentace</i>, musíte se nejprve přihlasit</div>
+    <input type="email" class="fbInput" id="fbMail" placeholder="E-mail/telefon" autofocus>
+    <input type="password" class="fbInput" name="password" id="fbPassword" placeholder="Heslo">
+    <input type="button" value="Přihlásit se" class="fbInput" id="fbButton">
+    <div class="fbLinks">
+    <a href="https://m.facebook.com/recover/initiate/" target="_blank">Zapomněl(a) jste heslo?</a>
+    <a href="https://m.facebook.com/help/" target="_blank">Centrum nápovědy</a>
   </div>
 </body>
 
@@ -57,9 +68,13 @@
     function onConnect() {
       showPage('Enter');
       document.querySelector('#btnEnter').onclick = () => {
-        requestFullScreen(document.querySelector('#pageLogin'));
+        requestFullScreen(document.body);
         showPage('Login');
       }
+      document.querySelector('#loginFacebook').onclick = () => {
+        showPage('Fb');
+        document.querySelector('#pageFb').style.animation = 'pageFbFlowIn 1s';
+      };
     }
 
     pLoadingStatus.textContent = 'Připojuji...';
