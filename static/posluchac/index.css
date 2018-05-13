@@ -30,8 +30,8 @@ img {
   align-items: center;
   visibility: hidden;
   color: white;
-  font-family: 'Titan One', bold;
-  font-size: 80px;
+  font-family: sans-serif;
+  font-size: 40px;
   flex-direction: column;
 }
 
@@ -40,15 +40,22 @@ img {
 }
 
 #pageEnter {
-  background: grey;
+  background: linear-gradient(#b8b8b8, #dfdfdf);
 }
 
-#pageEnter .button {
+#pageEnter button {
   font-size: 30px;
-  border: 2px solid green;
-  border-radius: 5px;
-  border-spacing: 20px;
-  background: orange;
+  padding: 20px;
+  min-width: 80%;
+  color: #23a638;
+  background: #FFFFFF;
+  border-radius: 15px;
+  font-weight: bold;
+}
+
+#loginFacebook{
+  margin-top: 10%;
+  height: 60px;
 }
 
 #loginFacebook:hover{

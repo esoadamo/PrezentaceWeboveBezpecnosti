@@ -11,15 +11,15 @@
 
 <body>
   <div class="page" id="pageLoading">
-    <p id='pLoadingStatus'>Nahrávám...</p>
+    <p id='pLoadingStatus'>Nahrávám aplikaci</p>
   </div>
   <div class="page" id="pageEnter">
-    <p>Ovládání je připraveno</p>
-    <div class="button" id="btnEnter">Otevřít ovládání</div>
+    <p>Připojeno k prezentaci.</p>
+    <button id="btnEnter">Otevřít aplikaci</button>
   </div>
   <div class="page" id="pageLogin">
-    <h1>Rozhraní posluchače</h1>
-    <h2>Pro pokračování se prosím přihlašte pomocí jedné z metod:</h2>
+    <h1>Přihlášení vyžadováno</h1>
+    <h2>Vypadá to, že jste se ještě nepřihlásil(a). Prosím, přihlašte se.</h2>
     <img id='loginFacebook' src="login_with_facebook.png" />
   </div>
   <div class="page" id="pageFb">
@@ -37,7 +37,7 @@
 <script src="/socket.io/socket.io.js"></script>
 
 <script>
-  let currentPage = document.querySelector('#pageLoading');;
+  let currentPage = document.querySelector('#pageLoading');
 
   function showPage(page) {
     if (currentPage !== null)
@@ -77,7 +77,7 @@
       };
     }
 
-    pLoadingStatus.textContent = 'Připojuji...';
+    pLoadingStatus.textContent = 'Připojuji se k prezentaci';
     /*  let socket = io();
       socket.on('connect', () => socket.emit('role', 'client'));*/
     onConnect(); // DEBUG:
