@@ -1,0 +1,22 @@
+#reactions{
+  position: fixed;
+  top: 3vh;
+  left: 2vw;
+  color: white;
+  font-family: monospace;
+  font-size: 5vh;
+}
+
+.reaction {
+  font-size: 11vh;
+  animation: reactionIn 1s;
+}
+
+@keyframes reactionIn {
+  0% {
+    filter: opacity(0);
+  },
+  100% {
+    filter: opacity(0.8);
+  }
+}

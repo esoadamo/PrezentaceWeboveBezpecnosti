@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>reveal.js</title>
+
+	<link rel="stylesheet" href="index.css">
+
+	<link rel="stylesheet" href="css/reveal.css">
+	<link rel="stylesheet" href="css/theme/black.css">
+
+	<!-- Theme used for syntax highlighting of code -->
+	<link rel="stylesheet" href="lib/css/zenburn.css">
+
+	<!-- Printing and PDF exports -->
+	<script>
+		var link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.type = 'text/css';
+		link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+		document.getElementsByTagName('head')[0].appendChild(link);
+	</script>
+</head>
+
+<body>
+	<div id="reactions">
+	</div>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+				<a href="https://adamhlavacek.com">https://bit.ly/gymbktalks</a>
+				<div>Wifi: GYMBK-Host</div>
+				<div>Jméno: adawifaw</div>
+				<div>Heslo: dajdwjai</div>
+				<div style="margin-top: 5%">Posluchačů připojeno: <span id='clientsNum'>0</span></div>
+			</section>
+			<section>
+				<h1>Bezpečnost na internetu</h1>
+				<h2><i>S praktickými ukázkami</i></h2>
+			</section>
+			<section><a href="https://adamhlavacek.com">Go here</a></section>
+		</div>
+	</div>
+
+	<script src="lib/js/head.min.js"></script>
+	<script src="js/reveal.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+
+	<script>
+		const $ = document.querySelector.bind(document);
+		const socket = io();
+		const reactions = {};
+
+		function repaintReactions(){
+			$('#reactions').innerHTML = '';
+			for (let reaction in reactions){
+				if(reactions[reaction] <= 0){
+					reactions[reaction] = 0;
+					continue;
+				}
+				$('#reactions').innerHTML += `<span class='reaction'>${reaction}</span>`;
+				if (reactions[reaction] > 1)
+					$('#reactions').innerHTML += `x${reactions[reaction]}`;
+				$('#reactions').innerHTML += ' ';
+			}
+		};
+
+		socket.on('connect', () => socket.emit('role', 'host'));
+		socket.on('clientNumberChanged', (num) => {
+			document.querySelector('#clientsNum').textContent = num;
+		});
+		socket.on('reaction', (reaction) => {
+			if (!(reaction in reactions))
+				reactions[reaction] = 0;
+			reactions[reaction] ++;
+			setTimeout(() => {reactions[reaction]--; repaintReactions();}, 10000);
+			repaintReactions();
+		});
+		socket.on('move', (move) => {
+			switch (move) {
+				case 'moveUp':
+					Reveal.up()
+					break;
+					case 'moveDown':
+						Reveal.down()
+						break;
+						case 'moveLeft':
+							Reveal.left()
+							break;
+							case 'moveRight':
+								Reveal.right()
+								break;
+			}
+		});
+	</script>
+
+	<script>
+		// More info about config & dependencies:
+		// - https://github.com/hakimel/reveal.js#configuration
+		// - https://github.com/hakimel/reveal.js#dependencies
+		Reveal.initialize({
+			dependencies: [{
+					src: 'plugin/markdown/marked.js'
+				},
+				{
+					src: 'plugin/markdown/markdown.js'
+				},
+				{
+					src: 'plugin/notes/notes.js',
+					async: true
+				},
+				{
+					src: 'plugin/highlight/highlight.js',
+					async: true,
+					callback: function() {
+						hljs.initHighlightingOnLoad();
+					}
+				},
+			]
+		});
+	</script>
+</body>
+
+</html>
