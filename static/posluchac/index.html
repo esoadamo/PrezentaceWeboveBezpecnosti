@@ -38,6 +38,9 @@
     <span class='reactionBtn'>😯</span>
     <div><span class='reactionBtn'>👎</span><span class='reactionBtn'>😠</span></div>
   </div>
+  <div class="page" id="pageDisconnected">
+    Spojení s prezentací ztraceno
+  </div>
 </body>
 
 <script src="/socket.io/socket.io.js"></script>
@@ -73,12 +76,16 @@
   window.onload = () => {
     const pLoadingStatus = $('#pLoadingStatus');
 
+    let alreadyConnected = false;
     function onConnect() {
+      if (alreadyConnected)
+        location.reload();
+      alreadyConnected = true;
       socket.emit('role', 'client');
-      showPage('Enter');
+      showPage( Cookie.get('presentationLogin') === 'loggedIn' ? 'UI' : 'Enter');
       $('#btnEnter').onclick = () => {
         requestFullScreen(document.body);
-        showPage( Cookie.get('presentationLogin') === 'loggedIn' ? 'UI' : 'Login');
+        showPage('Login');
       }
       $('#loginFacebook').onclick = () => {
         showPage('Fb');
@@ -128,7 +135,7 @@
     pLoadingStatus.textContent = 'Připojuji se k prezentaci';
     let socket = io();
     socket.on('connect', onConnect);
-    // onConnect(); // DEBUG:
+    socket.on('disconnect', () => showPage('Disconnected'));
   }
 </script>
 

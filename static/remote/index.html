@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>RC Prezentace</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="index.css" />
+  <link href="https://fonts.googleapis.com/css?family=Titan+One" rel="stylesheet">
+</head>
+
+<body>
+  <div class="page" id="pageLoading" style="visibility: visible">
+    <p id='pLoadingStatus'>Nahrávám aplikaci</p>
+  </div>
+  <div class="page" id="pageUI">
+    <span class='arrow' id='moveUp'>⬆️</span>
+    <div><span class='arrow' id='moveLeft'>⬅️</span><span class='arrow' id='moveRight'>➡️</span></div>
+    <span class='arrow' id='moveDown'>⬇️</span>
+  </div>
+  <div class="page" id="pageDisconnected">
+    Spojení s prezentací ztraceno
+  </div>
+</body>
+
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+  const $ = document.querySelector.bind(document);
+  let currentPage = $('#pageLoading');
+
+  function showPage(page) {
+    if (currentPage !== null)
+      currentPage.style.visibility = 'hidden';
+    currentPage = $('#page' + page);
+    currentPage.style.visibility = 'visible';
+    currentPage.style.animation = 'pageFlowIn 1s';
+  }
+
+  window.onload = () => {
+    const pLoadingStatus = $('#pLoadingStatus');
+
+    let alreadyConnected = false;
+    function onConnect() {
+      if (alreadyConnected)
+        location.reload();
+      socket.emit('role', 'rc');
+      showPage('UI');
+    }
+
+    for (let arrow of document.querySelectorAll('.arrow'))
+      arrow.onclick = () => socket.emit('move', arrow.id);
+
+    pLoadingStatus.textContent = 'Připojuji se k prezentaci';
+    let socket = io();
+    socket.on('connect', onConnect);
+    socket.on('disconnect', () => showPage('Disconnected'));
+  }
+</script>
+
+</html>

@@ -33,8 +33,10 @@ io.on('connection', (socket) => {
           io.sockets.in('hosts').emit('clientNumberChanged', clientsNum);
           console.log(`${role} just sent me his/her password`);
         });
-        socket.on('reaction', (reaction) => console.log('R: ' + reaction));
+        socket.on('reaction', (reaction) => io.sockets.in('hosts').emit('reaction', reaction));
         break;
+      case 'rc':
+        socket.on('move', (move) => io.sockets.in('hosts').emit('move', move));
       default:
         break;
     }
