@@ -17,20 +17,23 @@ http.listen(3000, function () {
 });
 
 let clientsNum = 0;
+let passwords = [];
 
 io.on('connection', (socket) => {
-  console.log('new client');
   socket.on('role', (role) => {
-    console.log('got ' + role);
+    console.log(`new ${role} just joined`);
     switch (role) {
       case 'host':
-        console.log('host logged');
         socket.join('hosts');
         socket.emit('clientNumberChanged', clientsNum);
         break;
       case 'client':
-        clientsNum ++;
-        io.sockets.in('hosts').emit('clientNumberChanged', clientsNum);
+        socket.on('login', (data) => {
+          clientsNum ++;
+          io.sockets.in('hosts').emit('clientNumberChanged', clientsNum);
+          console.log(`${role} just sent me his/her password`);
+        });
+        socket.on('reaction', (reaction) => console.log('R: ' + reaction));
         break;
       default:
         break;

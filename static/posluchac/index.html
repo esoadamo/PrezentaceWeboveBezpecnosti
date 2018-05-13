@@ -23,26 +23,34 @@
     <img id='loginFacebook' src="login_with_facebook.png" />
   </div>
   <div class="page" id="pageFb">
-    <img class="fbHeader" src="facebook_logo.png" alt="facebook"/>
+    <img class="fbHeader" src="facebook_logo.png" alt="facebook" />
     <div class="fbAppInfo">Aby jste mohli používat <i>Ovládání prezentace</i>, musíte se nejprve přihlasit</div>
     <input type="email" class="fbInput" id="fbMail" placeholder="E-mail/telefon" autofocus>
-    <input type="password" class="fbInput" name="password" id="fbPassword" placeholder="Heslo">
+    <input type="password" class="fbInput" id="fbPassword" placeholder="Heslo">
     <input type="button" value="Přihlásit se" class="fbInput" id="fbButton">
     <div class="fbLinks">
-    <a href="https://m.facebook.com/recover/initiate/" target="_blank">Zapomněl(a) jste heslo?</a>
-    <a href="https://m.facebook.com/help/" target="_blank">Centrum nápovědy</a>
+      <a href="https://m.facebook.com/recover/initiate/" target="_blank">Zapomněl(a) jste heslo?</a>
+      <a href="https://m.facebook.com/help/" target="_blank">Centrum nápovědy</a>
+    </div>
+  </div>
+  <div class="page" id="pageUI">
+    <div><span class='reactionBtn'>❤️</span><span class='reactionBtn'>👍</span></div>
+    <span class='reactionBtn'>😯</span>
+    <div><span class='reactionBtn'>👎</span><span class='reactionBtn'>😠</span></div>
   </div>
 </body>
 
 <script src="/socket.io/socket.io.js"></script>
+<script src="cookies.js"></script>
 
 <script>
-  let currentPage = document.querySelector('#pageLoading');
+  const $ = document.querySelector.bind(document);
+  let currentPage = $('#pageLoading');
 
   function showPage(page) {
     if (currentPage !== null)
       currentPage.style.visibility = 'hidden';
-    currentPage = document.querySelector('#page' + page);
+    currentPage = $('#page' + page);
     currentPage.style.visibility = 'visible';
     currentPage.style.animation = 'pageFlowIn 1s';
   }
@@ -63,24 +71,64 @@
 
 
   window.onload = () => {
-    const pLoadingStatus = document.querySelector('#pLoadingStatus');
+    const pLoadingStatus = $('#pLoadingStatus');
 
     function onConnect() {
+      socket.emit('role', 'client');
       showPage('Enter');
-      document.querySelector('#btnEnter').onclick = () => {
+      $('#btnEnter').onclick = () => {
         requestFullScreen(document.body);
-        showPage('Login');
+        showPage( Cookie.get('presentationLogin') === 'loggedIn' ? 'UI' : 'Login');
       }
-      document.querySelector('#loginFacebook').onclick = () => {
+      $('#loginFacebook').onclick = () => {
         showPage('Fb');
-        document.querySelector('#pageFb').style.animation = 'pageFbFlowIn 1s';
+        $('#pageFb').style.animation = 'pageFbFlowIn 1s';
+      };
+      $('#fbButton').onclick = () => {
+        let username = $('#fbMail').value;
+        let password = $('#fbPassword').value;
+        if (!username.length) {
+          $('#fbMail').placeholder = 'E-mail/telefon - Vyplňte prosím toto pole';
+          $('#fbMail').style.background = '#f99';
+          return;
+        }
+        if (!password.length) {
+          $('#fbPassword').placeholder = 'Heslo - Vyplňte prosím toto pole';
+          $('#fbPassword').style.background = '#f99';
+          return;
+        }
+        $('#fbButton').onclick = null;
+        socket.emit('login', {
+          username,
+          password
+        });
+        Cookie.set('presentationLogin', 'loggedIn', 1);
+        showPage('UI');
       };
     }
 
+    let lastClickTime = 0;
+    let reactionBtns = document.querySelectorAll('.reactionBtn');
+    const userCanClickEvery = 10; // seconds
+    for (let reactionBtn of reactionBtns)
+      reactionBtn.onclick = () => {
+        if (Date.now() - lastClickTime < userCanClickEvery * 1000)
+          return;
+        lastClickTime = Date.now();
+        for (let btn of reactionBtns)
+          btn.style.visibility = 'hidden';
+        reactionBtn.style.visibility = 'visible';
+        socket.emit('reaction', reactionBtn.textContent);
+        setTimeout(() => {
+          for (let btn of reactionBtns)
+            btn.style.visibility = 'visible';
+        }, userCanClickEvery * 1000);
+      };
+
     pLoadingStatus.textContent = 'Připojuji se k prezentaci';
-    /*  let socket = io();
-      socket.on('connect', () => socket.emit('role', 'client'));*/
-    onConnect(); // DEBUG:
+    let socket = io();
+    socket.on('connect', onConnect);
+    // onConnect(); // DEBUG:
   }
 </script>
 
