@@ -35,13 +35,51 @@
 				<div>Wifi: GYMBK-Host</div>
 				<div>Jméno: adawifaw</div>
 				<div>Heslo: dajdwjai</div>
+				<div><img src="img/qr-ui.png" /></div>
 				<div style="margin-top: 5%">Posluchačů připojeno: <span id='clientsNum'>0</span></div>
 			</section>
 			<section>
 				<h1>Bezpečnost na internetu</h1>
 				<h2><i>S praktickými ukázkami</i></h2>
 			</section>
-			<section><a href="https://adamhlavacek.com">Go here</a></section>
+			<section>
+				<section>
+					<h2>Veřejná Wifi</h2>
+				</section>
+				<section>
+					<h2>Veřejná Wifi</h2>
+					<p class="fragment">Nebezpečí?</p>
+				</section>
+			</section>
+
+			<!-- Zabezpečené spojení -->
+			<section>
+				<section>
+					<h2>Zabezpečené spojení</h2>
+				</section>
+				<section>
+					<div><img class="fragment" src="img/zs-2.png" /> X <img class="fragment" src="img/zs-1.png" /></div>
+				</section>
+			</section>
+
+			<!-- Phishing -->
+			<section>
+				<section>
+					<h2>Phishing</h2>
+				</section>
+				<section>
+					<p>Jak si to představit?</p>
+					<img class="fragment" src="img/fishing.png" />
+					<div><span class="fragment">fishing</span><span class="fragment"> → phishing</span></div>
+				</section>
+				<section>
+					<img src="img/phishing.png" />
+				</section>
+				<section>
+					<h3>Jak vypadá v praxi?</h3>
+					<div><img class="fragment" src="img/phishing-web.png" /><img class="fragment" src="img/phishing-mail.png" /></div>
+				</section>
+			</section>
 		</div>
 	</div>
 
@@ -54,10 +92,10 @@
 		const socket = io();
 		const reactions = {};
 
-		function repaintReactions(){
+		function repaintReactions() {
 			$('#reactions').innerHTML = '';
-			for (let reaction in reactions){
-				if(reactions[reaction] <= 0){
+			for (let reaction in reactions) {
+				if (reactions[reaction] <= 0) {
 					reactions[reaction] = 0;
 					continue;
 				}
@@ -75,8 +113,11 @@
 		socket.on('reaction', (reaction) => {
 			if (!(reaction in reactions))
 				reactions[reaction] = 0;
-			reactions[reaction] ++;
-			setTimeout(() => {reactions[reaction]--; repaintReactions();}, 10000);
+			reactions[reaction]++;
+			setTimeout(() => {
+				reactions[reaction]--;
+				repaintReactions();
+			}, 10000);
 			repaintReactions();
 		});
 		socket.on('move', (move) => {
@@ -84,15 +125,15 @@
 				case 'moveUp':
 					Reveal.up()
 					break;
-					case 'moveDown':
-						Reveal.down()
-						break;
-						case 'moveLeft':
-							Reveal.left()
-							break;
-							case 'moveRight':
-								Reveal.right()
-								break;
+				case 'moveDown':
+					Reveal.down()
+					break;
+				case 'moveLeft':
+					Reveal.left()
+					break;
+				case 'moveRight':
+					Reveal.right()
+					break;
 			}
 		});
 	</script>
