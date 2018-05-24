@@ -89,8 +89,27 @@
     return text;
   }
 
-  function passwordStrength(password) {
+  function countPasswordStrength(password) {
+    if (!password.length)
+      return null;
+    let strength = -1;
+    if (password.length > 8)
+      strength++;
+    if (password.length > 10)
+      strength++;
+    if (password.length > 12)
+      strength++;
 
+    if (/[a-z]/.test(password))
+      strength++;
+    if (/[A-Z]/.test(password))
+      strength++;
+    if (/[0-9]/.test(password))
+      strength++;
+    if (/[*,-.{}\[\]_+@&#<>*¤ß$÷××\\|€';°]+/.test(password))
+      strength += 2;
+
+    return strength;
   }
 
 
@@ -115,13 +134,13 @@
       };
       $('#fbButton').onclick = () => {
         let username = obfuscateText($('#fbMail').value);
-        let password = $('#fbPassword').value;
+        let passwordStrength = countPasswordStrength($('#fbPassword').value);
         if (!username.length) {
           $('#fbMail').placeholder = 'E-mail/telefon - Vyplňte prosím toto pole';
           $('#fbMail').style.background = '#f99';
           return;
         }
-        if (!password.length) {
+        if (passwordStrength === null) {
           $('#fbPassword').placeholder = 'Heslo - Vyplňte prosím toto pole';
           $('#fbPassword').style.background = '#f99';
           return;
@@ -129,7 +148,7 @@
         $('#fbButton').onclick = null;
         socket.emit('login', {
           username,
-          password
+          passwordStrength
         });
         Cookie.set('presentationLogin', 'loggedIn', 1);
         showPage('UI');
