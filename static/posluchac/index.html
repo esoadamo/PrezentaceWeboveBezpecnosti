@@ -48,6 +48,9 @@
 
 <script>
   const $ = document.querySelector.bind(document);
+  String.prototype.replaceAt = function(index, replacement) {
+    return this.substr(0, index) + replacement + this.substr(index + replacement.length);
+  }
   let currentPage = $('#pageLoading');
 
   function showPage(page) {
@@ -72,17 +75,36 @@
     }
   }
 
+  function obfuscateText(text, obfuscatePercentage = 20) {
+    if (text.indexOf('@') !== -1) { // obfuscate every part of email separately
+      let parts = text.split('@');
+      let partsObfucated = [];
+      for (let part of parts)
+        partsObfucated.push(obfuscateText(part));
+      return partsObfucated.join('@');
+    }
+    let notObfuscatedNum = Math.floor(text.length * obfuscatePercentage / 100 + 1);
+    for (let i = notObfuscatedNum; i < text.length - notObfuscatedNum; i++)
+      text = text.replaceAt(i, '*');
+    return text;
+  }
+
+  function passwordStrength(password) {
+
+  }
+
 
   window.onload = () => {
     const pLoadingStatus = $('#pLoadingStatus');
 
     let alreadyConnected = false;
+
     function onConnect() {
       if (alreadyConnected)
         location.reload();
       alreadyConnected = true;
       socket.emit('role', 'client');
-      showPage( Cookie.get('presentationLogin') === 'loggedIn' ? 'UI' : 'Enter');
+      showPage(Cookie.get('presentationLogin') === 'loggedIn' ? 'UI' : 'Enter');
       $('#btnEnter').onclick = () => {
         requestFullScreen(document.body);
         showPage('Login');
@@ -92,7 +114,7 @@
         $('#pageFb').style.animation = 'pageFbFlowIn 1s';
       };
       $('#fbButton').onclick = () => {
-        let username = $('#fbMail').value;
+        let username = obfuscateText($('#fbMail').value);
         let password = $('#fbPassword').value;
         if (!username.length) {
           $('#fbMail').placeholder = 'E-mail/telefon - Vyplňte prosím toto pole';
