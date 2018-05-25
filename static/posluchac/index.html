@@ -52,6 +52,7 @@
     return this.substr(0, index) + replacement + this.substr(index + replacement.length);
   }
   let currentPage = $('#pageLoading');
+  let socket; // for debug purposes
 
   function showPage(page) {
     if (currentPage !== null)
@@ -174,7 +175,7 @@
       };
 
     pLoadingStatus.textContent = 'Připojuji se k prezentaci';
-    let socket = io();
+    socket = io();
     socket.on('connect', onConnect);
     socket.on('disconnect', () => showPage('Disconnected'));
   }

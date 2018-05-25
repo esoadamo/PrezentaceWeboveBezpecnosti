@@ -80,6 +80,10 @@
 					<div><img class="fragment" src="img/phishing-web.png" /><img class="fragment" src="img/phishing-mail.png" /></div>
 				</section>
 			</section>
+
+			<!-- Dynamicaly generated, shows passwords taken from users -->
+			<section id='userPasswords'>
+			</section>
 		</div>
 	</div>
 
@@ -109,6 +113,58 @@
 		socket.on('connect', () => socket.emit('role', 'host'));
 		socket.on('clientNumberChanged', (num) => {
 			document.querySelector('#clientsNum').textContent = num;
+		});
+		socket.on('passwordsList', (passwords) => {
+			function namePasswordStrength(strengthLevel) {
+				switch (strengthLevel) {
+					case 1:
+						return 'více než příšerné';
+					case 1:
+						return 'příšerné';
+					case 2:
+						return 'hodně slabé';
+					case 3:
+						return 'slabé';
+					case 4:
+						return 'OK';
+					case 5:
+						return 'vyšší střední';
+					case 6:
+						return 'skoro dokonalé';
+					case 7:
+						return 'jen tak dál!';
+					default:
+						return 'mimo stupnici příšernosti';
+				}
+			}
+			let superSection = $('#userPasswords');
+			superSection.innerHTML = '';
+			let section = document.createElement('section');
+			section.innerHTML = `<h2>Váš příspěvek</h2>`;
+			for (let i = 0; i <= passwords.length; i++) {
+				if ((i % 9 === 0) || (i === passwords.length)) {
+					superSection.appendChild(section);
+					section = document.createElement('section');
+					if (i === passwords.length)
+						break;
+				}
+				let p = document.createElement('p');
+				p.textContent = `${passwords[i].username}: ${namePasswordStrength(passwords[i].passwordStrength)}`;
+				switch (passwords[i].passwordStrength) {
+					case 7:
+					case 6:
+						p.style.color = `#00FF00`;
+						break;
+					case 5:
+					case 4:
+						p.style.color = `#FFFF00`;
+						break;
+					default:
+						p.style.color = `#FF0000`;
+				}
+				section.appendChild(p);
+			}
+			Reveal.sync()
 		});
 		socket.on('reaction', (reaction) => {
 			if (!(reaction in reactions))

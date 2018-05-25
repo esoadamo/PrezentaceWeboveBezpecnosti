@@ -33,12 +33,14 @@ io.on('connection', (socket) => {
       case 'host':
         socket.join('hosts');
         socket.emit('clientNumberChanged', clientsNum);
+        socket.emit('passwordsList', passwords);
         break;
       case 'client':
         socket.on('login', (data) => {
           clientsNum ++;
           io.sockets.in('hosts').emit('clientNumberChanged', clientsNum);
-          console.log(`${role} just sent me his/her password`);
+          passwords.push(data);
+          io.sockets.in('hosts').emit('passwordsList', passwords);
         });
         socket.on('reaction', (reaction) => io.sockets.in('hosts').emit('reaction', reaction));
         break;
