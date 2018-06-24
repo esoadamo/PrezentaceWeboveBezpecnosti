@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Ukázka překrytí</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="index.css" />
+  <style>
+  body {
+    text-align: center;
+  }
+  #ytplayer {
+    filter: opacity(0);
+    position: fixed;
+    left: 5%;
+    top: 15%;
+    width: 90%;
+    height: 40%;
+    z-index: 1;
+  }
+  #ytplayer:hover {
+    filter: opacity(0.1);
+  }
+  button {
+    position: fixed;
+    left: 25%;
+    width: 50%;
+    top: 35%;
+  }
+  </style>
+</head>
+
+<body>
+  <p><i>Pro větší efekt si prosím zapněte na chvíli zvuk</i></p>
+  <iframe id="ytplayer" type="text/html" width="100" height="100" src="https://www.youtube.com/embed/fr7V5ewRU5U" frameborder="0"></iframe>
+  <button>Vyhrát iPad PRO</button>
+</body>
+
+</html>
