@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Ukázka následování myšky</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="index.css" />
+  <style>
+    body {
+      text-align: center;
+    }
+
+    .fb-like {
+      cursor: pointer;
+      filter: opacity(.2);
+      z-index: 5;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="fb-root"></div>
+  <script>
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = 'https://connect.facebook.net/cs_CZ/sdk.js#xfbml=1&version=v3.0&appId=483805505046056&autoLogAppEvents=1';
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  </script>
+  <p><i>Pohybuj myškou a klikni kamkoliv</i></p>
+
+  <div class="fb-like" data-href="https://gymbktalk.adamhlavacek.com" data-layout="button_count" data-action="like" data-size="large" data-show-faces="true" data-share="false"></div>
+</body>
+
+<script>
+let like = document.querySelector('.fb-like');
+document.addEventListener("mousemove", function (event) {
+    var x = event.pageX - 30;
+    var y = event.pageY - 10;
+    like.style.position = 'fixed';
+    like.style.left = x+'px';
+      like.style.top = y+'px';
+});
+</script>
+
+</html>
