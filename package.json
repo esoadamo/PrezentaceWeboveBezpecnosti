@@ -1,7 +1,7 @@
 {
-  "name": "gymbktalk",
+  "name": "prezentace-webove-bezpecnosti",
   "version": "1.0.0",
-  "description": "",
+  "description": "A presentation about web security, interactive. In Czech language. Build with reveal.js & socket.io",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
