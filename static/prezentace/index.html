@@ -31,10 +31,16 @@
 <div class="reveal">
     <div class="slides">
         <section>
-            <a href="https://websec.adamhlavacek.com/posluchac/">http://j.mp/adamwebsec</a>
-            <div><img alt="Načtěte prosím adresu nahoře" src="img/qr-ui.png" /></div>
-            <div style="margin-top: 5%">Posluchačů připojeno: <span id='clientsNum'>0</span></div>
+            <section>
+                <a href="https://websec.adamhlavacek.com/posluchac/">http://j.mp/adamwebsec</a>
+                <div><img alt="Načtěte prosím adresu nahoře" src="img/qr-ui.png"/></div>
+                <div style="margin-top: 5%">Posluchačů připojeno: <span id='clientsNum'>0</span></div>
+            </section>
+            <section>
+                <img alt="jak to vypadalo 5 hodin zpátky" src="img/cesta_vlakem.jpg"/>
+            </section>
         </section>
+
         <section>
             <h1>Webová bezpečnost</h1>
             <h2><i>z praktického pohledu</i></h2>
@@ -118,6 +124,7 @@
                     <li class="fragment">WEP: <span class="fragment">2 minuty</span></li>
                     <li class="fragment">WPS: <span class="fragment">8 sekund</span></li>
                     <li class="fragment">WPA/WPA2: <span class="fragment">∞</span><span class="fragment">!</span></li>
+                    <li class="fragment">WPA3: ?</li>
                 </ul>
             </section>
         </section>
@@ -128,20 +135,12 @@
                 <h2>Webové útoky</h2>
             </section>
             <section>
-                <h3><a href="overflow.html" target="_blank">Překrytí</a></h3>
-                <img alt="nepodařilo se nahrát obrázek" src="img/qr_overflow.png">
-                <div class="fragment"
-                     style="position: absolute; display: flex; align-items: center; justify-content: center; top: 0; left: 0; width: 100%; height: 100%;">
-                    <img alt="nepodařilo se nahrát obrázek" src="img/overflow.png">
-                </div>
-            </section>
-            <section>
-                <h3><a href="follow.html" target="_blank">Následování</a></h3>
-                <img alt="nepodařilo se nahrát obrázek" src="img/qr_follow.png">
-                <div class="fragment"
-                     style="position: absolute; display: flex; align-items: center; justify-content: center; top: 0; left: 0; width: 100%; height: 100%;">
-                    <img alt="nepodařilo se nahrát obrázek" src="img/follow.png">
-                </div>
+                <h3>Skript ve stránce</h3>
+                <ul>
+                    <li>pokud je stránka napadena</li>
+                    <li>pokud se napadne sám uživatel</li>
+                </ul>
+                <img alt="facebook - self xss" class="fragment" src="img/fb_self_xss.png">
             </section>
             <section>
                 <h3>Otevřená brána k vám</h3>
@@ -164,6 +163,213 @@
                         <span class="fragment">, útoky na další cíle)</span>
                     </li>
                 </ul>
+            </section>
+        </section>
+
+        <!-- Anonymita na internetu -->
+        <section>
+            <section>
+                <h2>Anonymita na internetu</h2>
+            </section>
+            <section>
+                <span class="fragment">KDO, </span>
+                <span class="fragment">JAK, </span>
+                <span class="fragment">CO?</span>
+            </section>
+            <section>
+                <h3>Kdo o nás něco ví?</h3>
+                <ul>
+                    <li class="fragment">každá stránka naši IP adresu</li>
+                    <li class="fragment">webová stránka jestli jsme přihlášení (a kdo jsme, když jsme)</li>
+                    <li class="fragment">reklamní společnosti</li>
+                    <li class="fragment">Facebook</li>
+                </ul>
+            </section>
+            <section>
+                <h3>Jak to o nás ví?</h3>
+                <ul>
+                    <li class="fragment">IP adresa - tu posíláme sami, aby stránky věděli komu odpovědět</li>
+                    <li class="fragment">přihlášení - webová stránka si u nás uloží text, který nás identifikuje (tzv.
+                        cookie)
+                    </li>
+                    <li class="fragment">reklamy - to stejné, ale od někoho jiného (tzv. cookie třetí strany)</li>
+                    <li class="fragment">Facebook - tlačítko líbí, které je skoro všude</li>
+                </ul>
+            </section>
+            <section>
+                <h3>Co o nás ví?</h3>
+                <ul>
+                    <li class="fragment">kde se nacházíme (přesnost v řádu obcí)</li>
+                    <li class="fragment">co je náš účet, pod jakým jménem jsme přihlášeni</li>
+                    <li class="fragment">naše návyky (co jsme si kde prohlíželi)</li>
+                    <li class="fragment">naše návyky, ale násobně lépe</li>
+                </ul>
+            </section>
+            <section>
+                <h3>Jak si prohlédnout, co o nás ví Facebook?</h3>
+                <img alt="Facebook ads" src="img/fb_ads.png"><br>
+                <a href="https://www.facebook.com/ads/preferences/?entry_product=ad_settings_screen">
+                    https://www.facebook.com/ads/preferences/?entry_product=ad_settings_screen
+                </a>
+            </section>
+            <section>
+                <img alt="moje zájmy podle Facebooku" src="img/fb_zajmy.png">
+            </section>
+            <section>
+                <h3>Jak si prohlédnout, co o nás ví Google?</h3>
+                <img alt="Google ads" src="img/gle_ads.png"><br>
+                <a href="https://adssettings.google.com/authenticated">
+                    https://adssettings.google.com/authenticated
+                </a>
+            </section>
+            <section>
+                <img alt="moje zájmy podle Google" class="fragment" src="img/gle_zajmy.png">
+            </section>
+            <section>
+                <h3>Co můžeme udělat, aby o nás věděli méně?</h3>
+                <ul>
+                    <li>používat blokátor reklam (uBlock Origin)</li>
+                    <li>používat Mozilla Firefox</li>
+                    <li>zákázat cookies třetích stran (může ale něco rozbít)</li>
+                    <li>další možná rošíření (např. Facebook container pro FF)</li>
+                </ul>
+            </section>
+            <section>
+                <h3>VPN</h3>
+                <ul>
+                    <li><i>= Virtual Private Network</i></li>
+                    <li>Vytváří šifrovaný tunel mezi vámi a poskytovatelem</li>
+                    <li>Může také měnit IP adresu</li>
+                </ul>
+                <a href="https://1.1.1.1/" target="_blank"><img alt="1.1.1.1" src="img/qr_1pow4.png"></a><br>
+                <a href="https://1.1.1.1/" target="_blank">https://1.1.1.1/</a>
+                <p class="fragment">ProtonVPN, NordVPN, ...</p>
+            </section>
+            <section>
+                <h3><a href="https://www.torproject.org/"><img alt="Logo Tor" src="img/tor_logo.png"></a></h3>
+                <div>
+                    <a href="https://www.torproject.org/" target="_blank">
+                        <img alt="https://www.torproject.org/" src="img/qr_tor.png">
+                    </a>
+                </div>
+                <ul>
+                    <li class="fragment"><i>(snad) </i>100% anonymita</li>
+                    <li class="fragment">funguje pomocí sítě uzlů</li>
+                    <li class="fragment">v některých zemích nelegální</li>
+                    <li class="fragment">
+                        <span class="fragment">prodej drog, </span>
+                        <span class="fragment">zbraní, </span>
+                        <span class="fragment">platebních karet, </span>
+                        <span class="fragment">bílého masa</span>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h3>Bezpečná komunikace na internetu</h3>
+                <ul>
+                    <li>Chat:
+                        <span class="fragment"><a href="https://telegram.org/" target="_blank">Telegram</a>, </span>
+                        <span class="fragment"><a href="https://www.signal.org/" target="_blank">Signal</a></span>
+                    </li>
+                    <li>
+                        Mail:
+                        <span class="fragment"><a href="https://protonmail.com/" target="_blank">ProtonMail</a>, </span>
+                        <span class="fragment"><a href="https://www.openpgp.org/software/"
+                                                  target="_blank">OpenPGP</a></span>
+                    </li>
+                </ul>
+            </section>
+        </section>
+
+        <!-- Hesla -->
+        <section>
+            <section>
+                <h2>Hesla</h2>
+            </section>
+            <section>
+                <h3>Co je silné heslo?</h3>
+                <ul>
+                    <li class="fragment">... na to je těžká odpověď</li>
+                    <li class="fragment" style="color: red">NE 1234
+                        <span class="fragment">, 123456</span>
+                        <span class="fragment">, alik</span>
+                        <span class="fragment">, Alenka</span>
+                        <span class="fragment">, Alenka1</span>
+                        <span class="fragment">, Al€nka</span>
+                        <span class="fragment">, Alenka-facebook</span>
+                    </li>
+                    <li class="fragment">... ideálně</li>
+                    <li class="fragment">8+ znaků (
+                        <span class="fragment">písmena malá i velká,</span>
+                        <span class="fragment">číslice,</span>
+                        <span class="fragment">speciální znaky: </span>
+                        <span class="fragment">~= 10^13)</span>
+                        <span class="fragment"> NEBO </span>
+                        <span class="fragment">4+ slov</span>
+                        <span class="fragment">(~= 8✕10^13)</span>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h3>Jak zacházet se svými hesly?</h3>
+                <ul>
+                    <li>nezapisovat na papírek</li>
+                    <li>nezapisovat do dokumentu</li>
+                    <li>nedávat je nikomu, kdo se nám je snaží ukrást</li>
+                    <li>používat 2 faktorovou autentizaci kdykoliv je to možné</li>
+                    <li class="fragment">nepoužít stejné heslo pro 2 služby</li>
+                </ul>
+            </section>
+            <section>
+                <h3>Správci hesel</h3>
+                <ul>
+                    <li>Jedno hlavní heslo</li>
+                    <li>Ostatní si pamatují za vás</li>
+                    <li>Musejí mít vaši důvěru</li>
+                    <li>Nepoužívejte správce hesel od prohlížečů
+                        <span class="fragment"><i>(bez nastavení hlavního hesla)</i></span>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h3>Správci hesel</h3>
+                <a href="https://www.lastpass.com/"><img alt="lastpass.com" src="img/lastpass.png"></a><br>
+                <a href="https://keepass.info/"><img alt="keepass.info" src="img/keepass.png"></a><br>
+                <a href="https://passman.cc/"><img alt="passman.cc" src="img/passman.png"></a><br>
+                <span class="fragment"><i>bez automatického vyplňování</i></span>
+            </section>
+            <section>
+                <h3>2 faktorová autentizace</h3>
+                <ul>
+                    <li>opsáním kódu z SMS</li>
+                    <li>opsáním kódu z aplikace</li>
+                    <li>potvrzením požadavku online</li>
+                    <li>vložením fyzického zařízení</li>
+                </ul>
+                <br>
+                <a href="https://www.yubico.com"><img alt="yubikey" class="fragment" src="img/yubikey.png"></a>
+            </section>
+            <section>
+                <h3>Jak jsou uložena naše hesla?</h3>
+                <ul>
+                    <li class="fragment">v čitelné podobě</li>
+                    <li class="fragment">zahashovány</li>
+                    <li class="fragment">zahashovány silným algoritmem</li>
+                    <li class="fragment">zašifrovány pomocí hlavního hesla</li>
+                </ul>
+            </section>
+            <section>
+                <h3>Jsou naše hesla v bezpečí?</h3>
+                <a class="fragment"
+                   href="https://www.idnes.cz/technet/internet/rekordni-unik-hesel.A190118_043757_sw_internet_pka">
+                    <img alt="článek o úniku hesel" src="img/clanek_unik_hesel.png">
+                </a><br>
+                <div class="fragment">
+                    <a class="fragmenta" href="https://haveibeenpwned.com/">haveibeenpwned.com</a><br>
+                    <a class="fragmenta" href="https://haveibeenpwned.com/">
+                        <img alt="haveibeenpwned" src="img/qr_haveibeenpwned.png">
+                    </a>
+                </div>
             </section>
         </section>
 
@@ -210,6 +416,12 @@
                 <div class="fragment"><span>James Veitch</span><img src="img/qr_veitch.png" alt="nepodařilo se nahrát obrázek" /></div>
             </section>
             <section>
+                <img alt="phishing" src="img/scam_mast.png">
+            </section>
+            <section>
+                <img alt="phishing" src="img/scam_mast2.png">
+            </section>
+            <section>
                 <img class="fragment" src="img/phis_my_command.png" alt="nepodařilo se nahrát obrázek" />
                 <img class="fragment" src="img/phis_my_mail.png" alt="nepodařilo se nahrát obrázek" />
             </section>
@@ -224,6 +436,13 @@
         <section>
             <h2>A to by bylo asi všechno</h2>
             <h3 class="fragment">Otázky?</h3>
+        </section>
+        <section>
+            <h2>Tak tohle je konec</h2>
+            <img alt="můj portrét" src="img/me.jpg"><br>
+            <p>Adam Hlaváček@<a href="https://www.plnoc.cz/">PLNOC 2019</a></p>
+            <p><a href="https://adamhlavacek.com">www.adamhlavacek.com</a></p>
+            <p><a href="https://github.com/esoadamo/">https://github.com/esoadamo/</a></p>
         </section>
     </div>
 </div>
