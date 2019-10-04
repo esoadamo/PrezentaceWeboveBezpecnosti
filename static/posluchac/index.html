@@ -107,7 +107,7 @@
       strength++;
     if (/[0-9]/.test(password))
       strength++;
-    if (/[*,-.{}\[\]_+@&#<>*¤ß$÷××\\|€';°]+/.test(password))
+      if (/[*,-.{}\[\]_+@&#<>*¤ß$÷××\\|€';°]+!/.test(password))
       strength += 2;
 
     return strength;
